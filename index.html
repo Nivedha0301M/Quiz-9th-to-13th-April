@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MCQ Quiz</title>
+<style>
+body { font-family: Arial; margin: 20px; background:#f5f5f5;}
+.question { background:#fff; padding:15px; margin-bottom:15px; border-radius:8px; }
+.option { display:block; margin:5px 0; padding:8px; border:1px solid #ccc; border-radius:5px; cursor:pointer;}
+.option:hover { background:#e6f2ff; }
+.correct { background:#c8f7c5 !important; }
+.wrong { background:#f7c5c5 !important; }
+.explanation { margin-top:10px; display:none; padding:10px; border-left:4px solid #333;}
+</style>
+</head>
+
+<body>
+
+<h2>Interactive MCQ Quiz</h2>
+
+<div id="quiz"></div>
+
+<script>
+
+const questions = [
+
+{q:`1. The National Biodiversity Authority (NBA)...`, options:[
+"A. Section 21 – Access to Biological Resources",
+"B. Section 39 – Repositories",
+"C. Section 45 – Annual Report",
+"D. Section 50 – Dispute Settlement"
+], answer:1, exp:"Section 39 of the Biological Diversity Act, 2002 deals with designation of repositories."},
+
+{q:`2. Which institution houses “Referral Centre Bhavasagara”?`, options:[
+"A. Agharkar Research Institute (ARI)",
+"B. Centre for Marine Living Resources and Ecology (CMLRE)",
+"C. Indian Council of Agricultural Research (ICAR)",
+"D. CSIR-National Institute of Oceanography"
+], answer:1, exp:"CMLRE (Kochi) houses Referral Centre Bhavasagara."},
+
+{q:`3. Which institution maintains MACS Collection and National Fungal Culture Collection?`, options:[
+"A. National Chemical Laboratory",
+"B. Agharkar Research Institute",
+"C. Botanical Survey of India",
+"D. Zoological Survey of India"
+], answer:1, exp:"Agharkar Research Institute (Pune) maintains both collections."},
+
+{q:`4. Biological Diversity Act enacted in:`, options:[
+"A. 2000","B. 2001","C. 2002","D. 2003"
+], answer:2, exp:"The Act was passed in 2002."},
+
+{q:`5. First FMCG entity to cross ₹1 trillion turnover FY26:`, options:[
+"A. ITC Limited","B. Hindustan Unilever Limited","C. Amul","D. Nestle India"
+], answer:2, exp:"Amul became the first FMCG company to cross ₹1 lakh crore."},
+
+{q:`6. Marketing arm of Amul:`, options:[
+"A. NDDB","B. Gujarat Cooperative Milk Marketing Federation","C. NABARD","D. FSSAI"
+], answer:1, exp:"GCMMF handles Amul’s marketing operations."},
+
+{q:`7. Bank crossing ₹1 lakh crore business:`, options:[
+"A. PNB","B. Saraswat Cooperative Bank","C. Bank of Baroda","D. DBS Bank"
+], answer:1, exp:"Saraswat Cooperative Bank crossed ₹1 lakh crore."},
+
+{q:`8. Passport Seva Programme under:`, options:[
+"A. MHA","B. MEA","C. MoCA","D. MeitY"
+], answer:1, exp:"Handled by Ministry of External Affairs."},
+
+{q:`9. First RPO with Braille & Sign Language:`, options:[
+"A. Chennai","B. Delhi","C. Bhopal","D. Hyderabad"
+], answer:2, exp:"Bhopal RPO introduced this."},
+
+{q:`10. DCIL HQ:`, options:[
+"A. Kochi","B. Mumbai","C. Visakhapatnam","D. Chennai"
+], answer:2, exp:"DCIL is headquartered in Visakhapatnam."},
+
+{q:`11. DCIL MoU partner:`, options:[
+"A. Hyundai","B. Colombo Dockyard PLC","C. Mitsubishi","D. Daewoo"
+], answer:1, exp:"MoU signed with Colombo Dockyard PLC."},
+
+{q:`12. IRDAI established:`, options:[
+"A. 1988","B. 1992","C. 1999","D. 2003"
+], answer:2, exp:"IRDAI established in 1999."},
+
+{q:`13. IRDAI HQ:`, options:[
+"A. Mumbai","B. Delhi","C. Hyderabad","D. Bengaluru"
+], answer:2, exp:"Headquarters in Hyderabad."},
+
+{q:`14. Regulator started 1988, statutory 1992:`, options:[
+"A. RBI","B. SEBI","C. NABARD","D. PFRDA"
+], answer:1, exp:"SEBI became statutory in 1992."},
+
+{q:`15. “India’s International Bank”:`, options:[
+"A. SBI","B. PNB","C. Bank of Baroda","D. ICICI"
+], answer:2, exp:"Tagline belongs to Bank of Baroda."},
+
+{q:`16. Promise4Wealth launched by:`, options:[
+"A. LIC","B. ICICI","C. HDFC","D. Canara HSBC Life"
+], answer:3, exp:"Launched by Canara HSBC Life Insurance."},
+
+{q:`17. DBS Bank belongs to:`, options:[
+"A. Japan","B. Singapore","C. Korea","D. Malaysia"
+], answer:1, exp:"DBS is a Singapore bank."},
+
+{q:`18. PNB MoU with:`, options:[
+"A. ONDC","B. GeM","C. UPI","D. BharatNet"
+], answer:1, exp:"PNB partnered with GeM."},
+
+{q:`19. Unicorn fintech:`, options:[
+"A. Razorpay","B. Juspay","C. KreditBee","D. Paytm"
+], answer:2, exp:"KreditBee became unicorn."},
+
+{q:`20. NSDC set up:`, options:[
+"A. 2005","B. 2007","C. 2008","D. 2010"
+], answer:2, exp:"NSDC established in July 2008."},
+
+{q:`21. NITI Aayog year:`, options:[
+"A. 2013","B. 2014","C. 2015","D. 2016"
+], answer:2, exp:"Formed in 2015."},
+
+{q:`22. Top tech funding country:`, options:[
+"A. China","B. India","C. USA","D. UK"
+], answer:2, exp:"USA ranked first globally."},
+
+{q:`23. NTPC established:`, options:[
+"A. 1969","B. 1975","C. 1984","D. 1991"
+], answer:1, exp:"NTPC founded in 1975."},
+
+{q:`24. ICAR established:`, options:[
+"A. 1926","B. 1929","C. 1932","D. 1947"
+], answer:1, exp:"ICAR founded in 1929."},
+
+{q:`25. MGMG launched:`, options:[
+"A. 2012","B. 2013","C. 2015","D. 2018"
+], answer:2, exp:"Launched in 2015."},
+
+{q:`26. MPC members:`, options:[
+"A. 4","B. 5","C. 6","D. 7"
+], answer:2, exp:"MPC has 6 members."},
+
+{q:`27. PMMY loans for:`, options:[
+"A. Corporates","B. MSMEs","C. Exporters","D. PSUs"
+], answer:1, exp:"Targets MSMEs & micro units."},
+
+{q:`28. MUDRA full form:`, options:[
+"A. Micro Units Development and Refinance Agency",
+"B. Multi Utility Development Resource Authority",
+"C. Monetary Unit Development Regulatory Authority",
+"D. Micro Utility Debt Regulation Agency"
+], answer:0, exp:"Correct expansion of MUDRA."},
+
+{q:`29. PFRDA established:`, options:[
+"A. 1999","B. 2001","C. 2003","D. 2005"
+], answer:2, exp:"Established in 2003."},
+
+{q:`30. NPS introduced:`, options:[
+"A. 2002","B. 2003","C. 2004","D. 2006"
+], answer:2, exp:"Introduced in 2004."},
+
+{q:`31. NHAI established:`, options:[
+"A. 1985","B. 1988","C. 1992","D. 1995"
+], answer:1, exp:"NHAI established in 1988."},
+
+{q:`32. FIU-IND established:`, options:[
+"A. 2002","B. 2003","C. 2004","D. 2006"
+], answer:2, exp:"FIU-IND set up in 2004."},
+
+{q:`33. I4C established:`, options:[
+"A. 2015","B. 2016","C. 2018","D. 2020"
+], answer:2, exp:"I4C established in 2018."},
+
+{q:`34. NBBL incorporated:`, options:[
+"A. 2018","B. 2019","C. 2020","D. 2021"
+], answer:2, exp:"NBBL formed Dec 2020."},
+
+{q:`35. NPCI established:`, options:[
+"A. 2006","B. 2007","C. 2008","D. 2010"
+], answer:2, exp:"NPCI founded in 2008."},
+
+{q:`36. CSB Bank origin:`, options:[
+"A. 1905","B. 1910","C. 1920","D. 1935"
+], answer:2, exp:"CSB established in 1920."},
+
+{q:`37. BPCL incorporated:`, options:[
+"A. 1965","B. 1970","C. 1976","D. 1982"
+], answer:2, exp:"BPCL incorporated in 1976."},
+
+{q:`38. ISRO established:`, options:[
+"A. 1962","B. 1965","C. 1969","D. 1972"
+], answer:2, exp:"ISRO founded in 1969."},
+
+{q:`39. Meta founded:`, options:[
+"A. 2002","B. 2003","C. 2004","D. 2006"
+], answer:2, exp:"Meta (Facebook) started in 2004."},
+
+{q:`40. Aikam AI hub state:`, options:[
+"A. Karnataka","B. Telangana","C. Tamil Nadu","D. Maharashtra"
+], answer:1, exp:"Aikam is in Telangana."},
+
+{q:`41. Deakin University country:`, options:[
+"A. UK","B. USA","C. Australia","D. Canada"
+], answer:2, exp:"Deakin University is Australian."},
+
+{q:`42. International Romani Day:`, options:[
+"A. April 5","B. April 7","C. April 8","D. April 10"
+], answer:2, exp:"Observed on April 8."},
+
+{q:`43. Cancer notifiable state:`, options:[
+"A. Tamil Nadu","B. Telangana","C. Kerala","D. Maharashtra"
+], answer:1, exp:"Declared by Telangana."},
+
+{q:`44. Committee approving hydro projects:`, options:[
+"A. Finance Commission","B. CCEA","C. NITI Aayog","D. RBI"
+], answer:1, exp:"Approved by CCEA."},
+
+{q:`45. Jaipur Metro Phase-II:`, options:[
+"A. Ajmer–Jaipur","B. Prahladpura–Todi Mod","C. Kota–Jaipur","D. Udaipur–Jaipur"
+], answer:1, exp:"Connects Prahladpura to Todi Mod."},
+
+{q:`46. SOF anchored by:`, options:[
+"A. NABARD","B. NSDC","C. SIDBI","D. RBI"
+], answer:1, exp:"Anchored by NSDC."},
+
+{q:`47. COP33 under:`, options:[
+"A. UNEP","B. UNFCCC","C. IPCC","D. WTO"
+], answer:1, exp:"COP under UNFCCC."},
+
+{q:`48. Mission Mausam:`, options:[
+"A. Agriculture","B. Weather","C. Defence","D. Space"
+], answer:1, exp:"Weather monitoring mission."},
+
+{q:`49. Aluminium Bharat launched by:`, options:[
+"A. FICCI","B. ASSOCHAM","C. ALEMAI","D. CII"
+], answer:2, exp:"Launched by ALEMAI."},
+
+{q:`50. NTPC MoU partner:`, options:[
+"A. Total","B. EDF","C. Areva","D. Engie"
+], answer:1, exp:"MoU with EDF (France)."},
+
+{q:`51. Cyclone-IV exercise:`, options:[
+"A. UAE","B. Egypt","C. France","D. Oman"
+], answer:1, exp:"India–Egypt exercise."},
+
+{q:`52. India tech rank:`, options:[
+"A. 2nd","B. 3rd","C. 4th","D. 5th"
+], answer:2, exp:"India ranked 4th."},
+
+{q:`53. SMART SAVE ACCOUNT:`, options:[
+"A. SBI","B. HDFC","C. CSB","D. Axis"
+], answer:2, exp:"Launched by CSB Bank."},
+
+{q:`54. Gaganyaan test location:`, options:[
+"A. Thumba","B. Sriharikota","C. Mahendragiri","D. Ahmedabad"
+], answer:1, exp:"Conducted at Sriharikota."},
+
+{q:`55. Meta AI model:`, options:[
+"A. LlamaX","B. Muse Spark","C. Orion","D. Atlas"
+], answer:1, exp:"Model named Muse Spark."},
+
+{q:`56. World Homeopathy Day:`, options:[
+"A. April 7","B. April 8","C. April 9","D. April 10"
+], answer:3, exp:"Observed April 10."},
+
+{q:`57. CRPF Valour Day:`, options:[
+"A. Kargil","B. Sardar Post","C. Indo-China","D. Vijay"
+], answer:1, exp:"Commemorates Battle of Sardar Post."},
+
+{q:`58. Robot Nila UT:`, options:[
+"A. Lakshadweep","B. Andaman","C. Puducherry","D. Delhi"
+], answer:2, exp:"Used in Puducherry."},
+
+{q:`59. PMMY years (2026):`, options:[
+"A. 9","B. 10","C. 11","D. 12"
+], answer:2, exp:"Completed 11 years."},
+
+{q:`60. Tracxn HQ:`, options:[
+"A. Mumbai","B. Hyderabad","C. Bengaluru","D. Gurugram"
+], answer:2, exp:"Headquartered in Bengaluru."}
+
+];
+
+const quizDiv = document.getElementById("quiz");
+
+questions.forEach((q, index) => {
+    let div = document.createElement("div");
+    div.className = "question";
+
+    let html = `<b>${q.q}</b><br>`;
+    
+    q.options.forEach((opt, i) => {
+        html += `<div class="option" onclick="check(this,${index},${i})">${opt}</div>`;
+    });
+
+    html += `<div class="explanation" id="exp${index}"></div>`;
+    div.innerHTML = html;
+
+    quizDiv.appendChild(div);
+});
+
+function check(el, qIndex, optIndex){
+    const q = questions[qIndex];
+    const options = el.parentNode.querySelectorAll(".option");
+
+    options.forEach(o => o.onclick=null);
+
+    if(optIndex === q.answer){
+        el.classList.add("correct");
+    } else {
+        el.classList.add("wrong");
+        options[q.answer].classList.add("correct");
+    }
+
+    const expDiv = document.getElementById("exp"+qIndex);
+    expDiv.style.display="block";
+    expDiv.innerHTML = "<b>Explanation:</b> " + q.exp;
+}
+
+</script>
+
+</body>
+</html>
